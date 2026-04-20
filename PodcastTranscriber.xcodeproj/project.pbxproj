@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E754FCAA2F966AC20093DC8F /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E754FCA92F966AC20093DC8F /* libsqlite3.tbd */; };
+		E754FCB32F966BB40093DC8F /* WhisperDummy.mm in Sources */ = {isa = PBXBuildFile; fileRef = E754FCB22F966BAF0093DC8F /* WhisperDummy.mm */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E754FC8C2F966A430093DC8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +29,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E754FC7E2F966A410093DC8F /* PodcastTranscriber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodcastTranscriber.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E754FC8B2F966A430093DC8F /* PodcastTranscriberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PodcastTranscriberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E754FC952F966A430093DC8F /* PodcastTranscriberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PodcastTranscriberUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E754FC7E2F966A410093DC8F /* PodcastTranscriber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = PodcastTranscriber.app; path = /Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriber.app; sourceTree = "<absolute>"; };
+		E754FC8B2F966A430093DC8F /* PodcastTranscriberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PodcastTranscriberTests.xctest; path = /Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriber.app/Contents/PlugIns/PodcastTranscriberTests.xctest; sourceTree = "<absolute>"; };
+		E754FC952F966A430093DC8F /* PodcastTranscriberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PodcastTranscriberUITests.xctest; path = "/Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriberUITests-Runner.app/Contents/PlugIns/PodcastTranscriberUITests.xctest"; sourceTree = "<absolute>"; };
+		E754FCA92F966AC20093DC8F /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		E754FCB22F966BAF0093DC8F /* WhisperDummy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WhisperDummy.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E754FCAA2F966AC20093DC8F /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,21 +83,20 @@
 		E754FC752F966A410093DC8F = {
 			isa = PBXGroup;
 			children = (
+				E754FCB22F966BAF0093DC8F /* WhisperDummy.mm */,
 				E754FC802F966A410093DC8F /* PodcastTranscriber */,
 				E754FC8E2F966A430093DC8F /* PodcastTranscriberTests */,
 				E754FC982F966A430093DC8F /* PodcastTranscriberUITests */,
-				E754FC7F2F966A410093DC8F /* Products */,
+				E754FCA82F966AC10093DC8F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		E754FC7F2F966A410093DC8F /* Products */ = {
+		E754FCA82F966AC10093DC8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E754FC7E2F966A410093DC8F /* PodcastTranscriber.app */,
-				E754FC8B2F966A430093DC8F /* PodcastTranscriberTests.xctest */,
-				E754FC952F966A430093DC8F /* PodcastTranscriberUITests.xctest */,
+				E754FCA92F966AC20093DC8F /* libsqlite3.tbd */,
 			);
-			name = Products;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +182,7 @@
 				TargetAttributes = {
 					E754FC7D2F966A410093DC8F = {
 						CreatedOnToolsVersion = 26.0.1;
+						LastSwiftMigration = 2600;
 					};
 					E754FC8A2F966A430093DC8F = {
 						CreatedOnToolsVersion = 26.0.1;
@@ -196,7 +204,7 @@
 			mainGroup = E754FC752F966A410093DC8F;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = E754FC7F2F966A410093DC8F /* Products */;
+			productRefGroup = E754FC752F966A410093DC8F;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -236,6 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E754FCB32F966BB40093DC8F /* WhisperDummy.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -416,6 +426,8 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastTranscriber-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -426,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -448,6 +461,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastTranscriber-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 			};
