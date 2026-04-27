@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E7263BE72F9F6FC900FF2787 /* whisper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7263BE62F9F6FC200FF2787 /* whisper.xcframework */; };
+		E7263BE82F9F6FC900FF2787 /* whisper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7263BE62F9F6FC200FF2787 /* whisper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E754FCAA2F966AC20093DC8F /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E754FCA92F966AC20093DC8F /* libsqlite3.tbd */; };
 		E754FCB32F966BB40093DC8F /* WhisperDummy.mm in Sources */ = {isa = PBXBuildFile; fileRef = E754FCB22F966BAF0093DC8F /* WhisperDummy.mm */; };
 /* End PBXBuildFile section */
@@ -28,10 +30,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E7263BE92F9F6FCA00FF2787 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E7263BE82F9F6FC900FF2787 /* whisper.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		E754FC7E2F966A410093DC8F /* PodcastTranscriber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = PodcastTranscriber.app; path = /Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriber.app; sourceTree = "<absolute>"; };
-		E754FC8B2F966A430093DC8F /* PodcastTranscriberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PodcastTranscriberTests.xctest; path = /Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriber.app/Contents/PlugIns/PodcastTranscriberTests.xctest; sourceTree = "<absolute>"; };
-		E754FC952F966A430093DC8F /* PodcastTranscriberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PodcastTranscriberUITests.xctest; path = "/Users/mullenchar/StudySwift/PodcastTranscriber/build/Debug/PodcastTranscriberUITests-Runner.app/Contents/PlugIns/PodcastTranscriberUITests.xctest"; sourceTree = "<absolute>"; };
+		E7263B7A2F9F63CB00FF2787 /* PodcastTranscriber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodcastTranscriber.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7263B7B2F9F63CB00FF2787 /* PodcastTranscriberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PodcastTranscriberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7263B7C2F9F63CB00FF2787 /* PodcastTranscriberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PodcastTranscriberUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7263BE62F9F6FC200FF2787 /* whisper.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = whisper.xcframework; sourceTree = "<group>"; };
 		E754FCA92F966AC20093DC8F /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		E754FCB22F966BAF0093DC8F /* WhisperDummy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WhisperDummy.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -59,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7263BE72F9F6FC900FF2787 /* whisper.xcframework in Frameworks */,
 				E754FCAA2F966AC20093DC8F /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +106,10 @@
 				E754FC8E2F966A430093DC8F /* PodcastTranscriberTests */,
 				E754FC982F966A430093DC8F /* PodcastTranscriberUITests */,
 				E754FCA82F966AC10093DC8F /* Frameworks */,
+				E7263B7A2F9F63CB00FF2787 /* PodcastTranscriber.app */,
+				E7263B7B2F9F63CB00FF2787 /* PodcastTranscriberTests.xctest */,
+				E7263B7C2F9F63CB00FF2787 /* PodcastTranscriberUITests.xctest */,
+				E7263BE62F9F6FC200FF2787 /* whisper.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +131,7 @@
 				E754FC7A2F966A410093DC8F /* Sources */,
 				E754FC7B2F966A410093DC8F /* Frameworks */,
 				E754FC7C2F966A410093DC8F /* Resources */,
+				E7263BE92F9F6FCA00FF2787 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -121,7 +144,7 @@
 			packageProductDependencies = (
 			);
 			productName = PodcastTranscriber;
-			productReference = E754FC7E2F966A410093DC8F /* PodcastTranscriber.app */;
+			productReference = E7263B7A2F9F63CB00FF2787 /* PodcastTranscriber.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E754FC8A2F966A430093DC8F /* PodcastTranscriberTests */ = {
@@ -144,7 +167,7 @@
 			packageProductDependencies = (
 			);
 			productName = PodcastTranscriberTests;
-			productReference = E754FC8B2F966A430093DC8F /* PodcastTranscriberTests.xctest */;
+			productReference = E7263B7B2F9F63CB00FF2787 /* PodcastTranscriberTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E754FC942F966A430093DC8F /* PodcastTranscriberUITests */ = {
@@ -167,7 +190,7 @@
 			packageProductDependencies = (
 			);
 			productName = PodcastTranscriberUITests;
-			productReference = E754FC952F966A430093DC8F /* PodcastTranscriberUITests.xctest */;
+			productReference = E7263B7C2F9F63CB00FF2787 /* PodcastTranscriberUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */

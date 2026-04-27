@@ -7,18 +7,17 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct RootView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationSplitView {
+            SubscriptionsView()
+        } detail: {
+            EpisodesView()
         }
-        .padding()
+        .navigationTitle("Podcast Transcriber")
     }
 }
 
 #Preview {
-    ContentView()
+    RootView()
 }
