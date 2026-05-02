@@ -18,4 +18,16 @@ class ExportService {
         try markdownContent.write(to: exportPath, atomically: true, encoding: .utf8)
         print("Exported Markdown to \(exportPath.path)")
     }
+
+    func export(text: String, suggestedName: String) throws -> URL {
+        let exportsDirectory = Paths.exportsDirectory
+        try FileManager.default.createDirectory(at: exportsDirectory, withIntermediateDirectories: true)
+
+        let timestamp = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short)
+        let fileName = "\(suggestedName)-transcript-\(timestamp).txt"
+        let fileURL = exportsDirectory.appendingPathComponent(fileName)
+
+        try text.write(to: fileURL, atomically: true, encoding: .utf8)
+        return fileURL
+    }
 }

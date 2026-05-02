@@ -25,15 +25,29 @@ struct Paths {
         applicationSupportDirectory.appendingPathComponent("Logs", isDirectory: true)
     }
 
+    static func ensureDirectoriesExist() throws {
+        let directories = [downloadsDirectory, exportsDirectory, logsDirectory]
+        for directory in directories {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        }
+    }
+
     static func bundleModelURL() throws -> URL {
         guard let url = Bundle.main.url(forResource: "models/ggml-base.en", withExtension: "bin") else {
-            throw PodcastTranscriberError.modelNotFound
+            throw PodcastTranscriberError.modelNotFound(expectedResource: "models/ggml-base.en.bin")
         }
+        return url
+    }
+
+    static func temporaryDirectory() -> URL {
+        let url = applicationSupportDirectory.appendingPathComponent("tmp", isDirectory: true)
+        try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }
 }
 
 /// Custom error type for the application.
 enum PodcastTranscriberError: Error {
-    case modelNotFound
+    case modelNotFound(expectedResource: String)
+    case whisperFailed(code: Int)
 }

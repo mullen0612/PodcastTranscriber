@@ -1,10 +1,28 @@
 import Foundation
 
-/// Swift wrapper for WhisperBridge.
+/// Swift wrapper for the pt_whisper_transcribe C function declared in WhisperBridge.h.
 struct WhisperBridge {
-    func transcribe(audioURL: URL, modelURL: URL, language: WhisperLanguage) throws -> Transcript {
-        // WHISPER-INTEGRATION-TODO: Call C function from WhisperBridge.h
-        print("Transcribing audio at \(audioURL.path) with model \(modelURL.path)")
-        return Transcript(episodeID: UUID().uuidString, content: "Stub transcript")
+
+    /// Transcribes audio using whisper.cpp and returns the raw text result.
+    /// - Parameters:
+    ///   - audioURL: Path to a WAV file (16kHz, mono, 16-bit PCM).
+    ///   - modelURL: Path to the whisper model file (e.g. ggml-base.en.bin).
+    /// - Returns: The transcription text.
+    func transcribe(audioURL: URL, modelURL: URL) throws -> String {
+        let outputURL = Paths.temporaryDirectory()
+            .appendingPathComponent(UUID().uuidString)
+            .appendingPathExtension("txt")
+
+        let resultCode = pt_whisper_transcribe(
+            modelURL.path,
+            audioURL.path,
+            outputURL.path
+        )
+
+        if resultCode != 0 {
+            throw PodcastTranscriberError.whisperFailed(code: Int(resultCode))
+        }
+
+        return try String(contentsOf: outputURL, encoding: .utf8)
     }
 }

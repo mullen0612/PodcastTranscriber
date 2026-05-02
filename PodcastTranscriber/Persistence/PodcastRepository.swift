@@ -8,9 +8,15 @@ class PodcastRepository {
         self.database = database
     }
 
-    func addPodcast(id: String, title: String, feedURL: String, createdAt: Date) throws {
-        let sql = "INSERT INTO podcasts (id, title, feed_url, created_at) VALUES ('\(id)', '\(title)', '\(feedURL)', \(createdAt.timeIntervalSince1970));"
+    func addPodcast(id: UUID, title: String, feedURL: String, createdAt: Date) throws {
+        let sql = "INSERT INTO podcasts (id, title, feed_url, created_at) VALUES ('\(id.uuidString)', '\(title)', '\(feedURL)', \(createdAt.timeIntervalSince1970));"
         try database.execute(sql)
+    }
+
+    func deletePodcast(id: UUID) throws {
+        // Delete episodes first due to foreign key relationship
+        try database.execute("DELETE FROM episodes WHERE podcast_id = '\(id.uuidString)';")
+        try database.execute("DELETE FROM podcasts WHERE id = '\(id.uuidString)';")
     }
 
     func fetchAllPodcasts() throws -> [Podcast] {

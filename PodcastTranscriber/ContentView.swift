@@ -7,17 +7,8 @@
 
 import SwiftUI
 
-struct RootView: View {
+struct ContentView: View {
     var body: some View {
-        NavigationSplitView {
-            SubscriptionsView()
-        } detail: {
-            EpisodesView()
-        }
-        .navigationTitle("Podcast Transcriber")
+        Text("Hello, World!")
     }
-}
-
-#Preview {
-    RootView()
 }
