@@ -15,79 +15,127 @@ class FeedService {
     }
 }
 
-/// Minimal RSS parser.
+/// Minimal RSS parser with accumulated text handling.
 class RSSParser: NSObject, XMLParserDelegate {
     private var currentElement = ""
-    private var currentTitle: String?
-    private var currentGUID: String?
-    private var currentPubDate: Date?
+    private var currentElementText = ""
     private var currentEnclosureURL: URL?
+    private var currentDurationRaw: String?
     private var episodes: [Episode] = []
     private var feedTitle: String?
     private var feedURL: URL?
+
+    // Per-item accumulated fields
+    private var itemTitle: String?
+    private var itemGUID: String?
+    private var itemPubDate: Date?
+    private var itemEnclosureURL: URL?
+    private var itemDurationRaw: String?
 
     func parse(data: Data, feedURL: URL) throws -> (title: String, episodes: [Episode]) {
         self.feedURL = feedURL
         let parser = XMLParser(data: data)
         parser.delegate = self
+        // Many RSS feeds need namespace support
+        parser.shouldProcessNamespaces = true
         guard parser.parse() else {
             throw FeedServiceError.parsingFailed
         }
         return (feedTitle ?? feedURL.absoluteString, episodes)
     }
 
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String,
+                namespaceURI: String?, qualifiedName qName: String?,
+                attributes attributeDict: [String: String] = [:]) {
         currentElement = elementName
-        if elementName == "enclosure", let urlString = attributeDict["url"], let url = URL(string: urlString) {
-            currentEnclosureURL = url
+        currentElementText = ""
+
+        // enclosure URL from attributes
+        if elementName == "enclosure",
+           let urlString = attributeDict["url"],
+           let url = URL(string: urlString) {
+            itemEnclosureURL = url
+        }
+
+        // itunes:duration from attributes (some feeds put it as an attribute)
+        if (elementName == "duration" || qName == "itunes:duration"),
+           let dur = attributeDict["duration"] ?? attributeDict["seconds"] {
+            itemDurationRaw = dur
         }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        currentElementText += string
+    }
 
-        switch currentElement {
+    func parser(_ parser: XMLParser, didEndElement elementName: String,
+                namespaceURI: String?, qualifiedName qName: String?) {
+        let text = currentElementText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        switch elementName {
         case "title":
             if feedTitle == nil {
-                feedTitle = trimmed
+                feedTitle = text
             } else {
-                currentTitle = trimmed
+                itemTitle = text
             }
         case "guid":
-            currentGUID = trimmed
+            itemGUID = text.isEmpty ? nil : text
         case "pubDate":
-            currentPubDate = DateParsing.parse(trimmed)
+            itemPubDate = DateParsing.parse(text) ?? itemPubDate
+        case "duration":
+            itemDurationRaw = text.isEmpty ? nil : text
+        case "enclosure":
+            // already handled in didStartElement via attributes
+            break
+        case "item":
+            let episodeID = itemGUID ?? itemEnclosureURL?.absoluteString ?? UUID().uuidString
+            let duration = parseDuration(raw: itemDurationRaw)
+            let episode = Episode(
+                id: episodeID,
+                podcastID: UUID(),
+                title: itemTitle ?? "Untitled",
+                pubDate: itemPubDate,
+                enclosureURL: itemEnclosureURL,
+                status: .discovered,
+                audioPath: nil,
+                transcriptMDPath: nil,
+                error: nil,
+                duration: duration,
+                updatedAt: Date()
+            )
+            episodes.append(episode)
+
+            // Reset item accumulators
+            itemTitle = nil
+            itemGUID = nil
+            itemPubDate = nil
+            itemEnclosureURL = nil
+            itemDurationRaw = nil
         default:
             break
         }
     }
 
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "item" {
-            let episodeID = currentGUID ?? currentEnclosureURL?.absoluteString ?? UUID().uuidString
-            let episode = Episode(
-                id: episodeID,
-                podcastID: UUID(), // Placeholder, should be set by caller.
-                title: currentTitle ?? "Untitled",
-                pubDate: currentPubDate,
-                enclosureURL: currentEnclosureURL,
-                status: .discovered,
-                audioPath: nil,
-                transcriptMDPath: nil,
-                error: nil,
-                updatedAt: Date()
-            )
-            episodes.append(episode)
-            currentTitle = nil
-            currentGUID = nil
-            currentPubDate = nil
-            currentEnclosureURL = nil
+    /// Parse itunes:duration which can be seconds (1234) or HH:MM:SS format.
+    private func parseDuration(raw: String?) -> TimeInterval? {
+        guard let raw = raw, !raw.isEmpty else { return nil }
+        // Try integer seconds
+        if let seconds = TimeInterval(raw) {
+            return seconds > 0 ? seconds : nil
         }
+        // Try HH:MM:SS
+        let parts = raw.split(separator: ":").compactMap { TimeInterval($0) }
+        if parts.count == 2 {
+            return parts[0] * 60 + parts[1]
+        }
+        if parts.count == 3 {
+            return parts[0] * 3600 + parts[1] * 60 + parts[2]
+        }
+        return nil
     }
 }
 
-/// Errors related to FeedService.
 enum FeedServiceError: Error {
     case parsingFailed
 }

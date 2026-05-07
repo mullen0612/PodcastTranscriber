@@ -1,0 +1,9 @@
+# Whisper model (too large for Git, download separately)
+PodcastTranscriber/models/
+
+# Xcode user data
+*.xcuserdata/
+
+# Test files
+Mytest.m4a
+*.m4a

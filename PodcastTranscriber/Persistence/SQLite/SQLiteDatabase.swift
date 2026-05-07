@@ -57,6 +57,11 @@ class SQLiteDatabase {
     }
 }
 
+/// Escapes a string for safe use in a SQL string literal.
+func sqlEscape(_ string: String) -> String {
+    return string.replacingOccurrences(of: "'", with: "''")
+}
+
 /// SQLite-related errors.
 enum SQLiteError: Error {
     case openDatabase(message: String)

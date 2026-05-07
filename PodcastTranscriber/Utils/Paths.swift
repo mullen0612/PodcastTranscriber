@@ -33,14 +33,15 @@ struct Paths {
     }
 
     static func bundleModelURL() throws -> URL {
-        guard let url = Bundle.main.url(forResource: "models/ggml-base.en", withExtension: "bin") else {
-            throw PodcastTranscriberError.modelNotFound(expectedResource: "models/ggml-base.en.bin")
+        guard let url = Bundle.main.url(forResource: "ggml-base.en", withExtension: "bin") else {
+            throw PodcastTranscriberError.modelNotFound(expectedResource: "ggml-base.en.bin")
         }
         return url
     }
 
     static func temporaryDirectory() -> URL {
-        let url = applicationSupportDirectory.appendingPathComponent("tmp", isDirectory: true)
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("PodcastTranscriber", isDirectory: true)
         try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }

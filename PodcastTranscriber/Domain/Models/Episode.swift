@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents an episode of a podcast.
 struct Episode: Identifiable {
-    let id: String // Derived from guid or enclosure URL hash.
+    let id: String
     let podcastID: UUID
     let title: String
     let pubDate: Date?
@@ -11,5 +11,6 @@ struct Episode: Identifiable {
     var audioPath: String?
     var transcriptMDPath: String?
     var error: String?
+    let duration: TimeInterval?  // seconds
     let updatedAt: Date
 }

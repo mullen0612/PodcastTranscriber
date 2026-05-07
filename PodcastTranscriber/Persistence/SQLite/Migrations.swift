@@ -7,6 +7,9 @@ class Migrations {
         if currentVersion < 1 {
             try migrateToVersion1(database: database)
         }
+        if currentVersion < 2 {
+            try migrateToVersion2(database: database)
+        }
     }
 
     private static func getCurrentVersion(database: SQLiteDatabase) throws -> Int {
@@ -45,5 +48,11 @@ class Migrations {
         try database.execute(createPodcastsTable)
         try database.execute(createEpisodesTable)
         try database.execute("PRAGMA user_version = 1;")
+    }
+
+    private static func migrateToVersion2(database: SQLiteDatabase) throws {
+        // Add duration column for episode length tracking
+        try database.execute("ALTER TABLE episodes ADD COLUMN duration REAL;")
+        try database.execute("PRAGMA user_version = 2;")
     }
 }

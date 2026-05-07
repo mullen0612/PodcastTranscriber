@@ -3,8 +3,11 @@
 #import <whisper.h>
 
 int pt_whisper_transcribe(const char *model_path, const char *audio_path, const char *out_text_path) {
-    // Load the Whisper model
-    struct whisper_context *ctx = whisper_init_from_file(model_path);
+    // Load the Whisper model (CPU backend to avoid GPU contention with AVFoundation)
+    struct whisper_context_params cparams = whisper_context_default_params();
+    cparams.use_gpu = false;
+
+    struct whisper_context *ctx = whisper_init_from_file_with_params(model_path, cparams);
     if (!ctx) {
         return -1; // Failed to load model
     }
@@ -60,20 +63,29 @@ int pt_whisper_transcribe(const char *model_path, const char *audio_path, const 
 
     free(audio_data);
 
-    // Retrieve and write the transcription result
-    const char *result = whisper_full_get_segment_text(ctx, 0);
-    whisper_free(ctx);
+    // Retrieve the transcription result (all segments)
+    const int n_segments = whisper_full_n_segments(ctx);
+    NSMutableString *fullText = [NSMutableString string];
 
-    if (!result) {
-        return -5; // Failed to retrieve transcription
+    for (int i = 0; i < n_segments; i++) {
+        const char *segment_text = whisper_full_get_segment_text(ctx, i);
+        if (segment_text) {
+            [fullText appendFormat:@"%s", segment_text];
+        }
     }
 
-    NSString *output = [NSString stringWithUTF8String:result];
+    // Free whisper context before writing output (text is now in NSString)
+    whisper_free(ctx);
+
+    if (fullText.length == 0) {
+        return -5; // No transcription produced
+    }
+
     NSError *error = nil;
-    [output writeToFile:[NSString stringWithUTF8String:out_text_path]
-             atomically:YES
-               encoding:NSUTF8StringEncoding
-                  error:&error];
+    [fullText writeToFile:[NSString stringWithUTF8String:out_text_path]
+               atomically:YES
+                 encoding:NSUTF8StringEncoding
+                    error:&error];
 
     if (error) {
         return -6; // Failed to write output
